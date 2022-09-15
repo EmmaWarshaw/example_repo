@@ -1,0 +1,64 @@
+---
+title: "Simple document"
+output: 
+html_document:
+  toc: true
+  toc_float: true
+---
+
+```{r}
+library(tidyverse)
+```
+
+I'm an R Markdown document! 
+
+# Section 1
+
+Here's a **code chunk** that samples from 
+a _normal distribution_:
+#brackets around the r say that everything after it is r code 
+
+```{r} 
+samp = rnorm(100)
+length(samp)
+```
+
+# Section 2: 
+
+The quotes on the in-line are on the key next to the one, it's not an apostrophe.  An apostrophe won't work for the code. 
+
+I can take the mean of the sample, too!
+The mean is `r round(mean(samp), 2)`.
+
+# Section 3
+
+This is going to make a plot.  First I generate a dataframe, then use `ggplot` to make a scatterplot. Every time you knit a document, you start from scratch so you have to reload the library.  Put the library at the very beginning of the document to keep everything easy.  
+
+You can name the chunks of code within the curly brackets with the r at the beginning of the code chunks. 
+
+```{r chunk_scatterplot}
+plot_df=
+  tibble(
+    x=rnorm(n=1000),
+    y=1+2*x+rnorm(n=1000)
+  )
+ggplot(plot_df, aes (x=x, y=y))+geom_point()
+```
+
+#Section 4
+
+Learning assessment: Write a named code chunk that creates a dataframe comprised of: a numeric variable containing a random sample of size 500 from a normal variable with mean 1; a logical vector indicating whether each sampled value is greater than zero; and a numeric vector containing the absolute value of each element. Then, produce a histogram of the absolute value variable just created. Add an inline summary giving the median value rounded to two decimal places. What happens if you set eval = FALSE to the code chunk? What about echo = FALSE?
+
+```{r learning_assessment1}
+
+la_df = tibble(
+  norm_samp = rnorm(500, mean = 1),
+  norm_samp_pos = norm_samp > 0,
+  abs_norm_samp = abs(norm_samp)
+)
+
+ggplot(la_df, aes(x = abs_norm_samp)) + geom_histogram()
+
+median_samp = median(pull(la_df, norm_samp))
+```
+
